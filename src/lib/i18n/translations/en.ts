@@ -21,7 +21,7 @@ export const en = {
 
   // Accounts
   accounts: {
-    title1: "Five features,",
+    title1: "Earn, borrow, invest, swap, pay —",
     title2: "one agent",
     subtitle: "Everything your agent needs to manage money — autonomously and non-custodially.",
     checking: {
