@@ -155,11 +155,16 @@ export function HowItWorks(): React.ReactElement {
     };
   }, []);
 
-  /* Marker click → scroll to the middle of that segment. */
+  /* Marker click → scroll to the middle of that segment.
+     On mobile (no scroll-jack, total<=0) just swap the active step. */
   const scrollToStep = (i: number) => {
     const el = wrapperRef.current;
     if (!el) return;
     const total = el.offsetHeight - window.innerHeight;
+    if (total <= 0) {
+      setActive(i);
+      return;
+    }
     const segCenter = (i + 0.5) / STEPS.length;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({
@@ -172,9 +177,9 @@ export function HowItWorks(): React.ReactElement {
     <section
       id="how-it-works"
       ref={wrapperRef}
-      className="relative bg-background h-[300vh]"
+      className="relative bg-background md:h-[300vh]"
     >
-      <div className="sticky top-0 h-screen flex flex-col justify-center max-w-4xl mx-auto px-6">
+      <div className="md:sticky md:top-0 md:h-screen flex flex-col md:justify-center max-w-4xl mx-auto px-6 py-16 md:py-0">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
             How it works
