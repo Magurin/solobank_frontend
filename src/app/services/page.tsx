@@ -150,7 +150,12 @@ export default async function ServicesPage() {
                 </div>
               </div>
 
-              <table className="w-full text-sm">
+              <table className="w-full text-sm table-fixed">
+                <colgroup>
+                  <col className="w-[45%]" />
+                  <col className="w-[40%]" />
+                  <col className="w-[15%]" />
+                </colgroup>
                 <thead>
                   <tr className="text-dim text-xs uppercase tracking-wider">
                     <th className="text-left px-6 py-2 font-medium">Endpoint</th>
@@ -162,7 +167,7 @@ export default async function ServicesPage() {
                   {service.endpoints.map((ep) => (
                     <tr key={ep.path} className="border-t border-border/50 hover:bg-surface/60 transition-colors">
                       <td className="px-6 py-3">
-                        <code className="text-solana-green text-xs font-mono">
+                        <code className="text-solana-green text-xs font-mono break-all">
                           POST /{service.id}{ep.path}
                         </code>
                       </td>
