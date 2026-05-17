@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/context";
+import { BLOG_ENABLED } from "@/lib/flags";
 
 export function Footer(): React.ReactElement {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export function Footer(): React.ReactElement {
       { label: t.footer.stats, href: "/stats" },
     ],
     [t.footer.resources]: [
-      { label: "Blog", href: "/blog" },
+      ...(BLOG_ENABLED ? [{ label: "Blog", href: "/blog" }] : []),
       { label: "Glossary", href: "/glossary" },
       { label: "GitHub", href: "https://github.com/solobank-ai", external: true },
       { label: "npm", href: "https://www.npmjs.com/package/@solobank/cli", external: true },

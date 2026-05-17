@@ -12,12 +12,14 @@ import {
   extractFaqs,
 } from "@/lib/blog";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { BLOG_ENABLED } from "@/lib/flags";
 
 interface RouteParams {
   params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams(): Array<{ slug: string }> {
+  if (!BLOG_ENABLED) return [];
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }
 
@@ -52,6 +54,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
 }
 
 export default async function BlogPostPage({ params }: RouteParams): Promise<React.ReactElement> {
+  if (!BLOG_ENABLED) notFound();
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 import { getAllPosts } from "@/lib/blog";
 import { getAllGlossary } from "@/lib/glossary";
+import { BLOG_ENABLED } from "@/lib/flags";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -14,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/mpp", priority: 0.9, changeFrequency: "weekly" },
     { path: "/services", priority: 0.9, changeFrequency: "weekly" },
     { path: "/docs", priority: 0.9, changeFrequency: "weekly" },
-    { path: "/blog", priority: 0.8, changeFrequency: "weekly" },
+    ...(BLOG_ENABLED ? [{ path: "/blog", priority: 0.8, changeFrequency: "weekly" as const }] : []),
     { path: "/glossary", priority: 0.7, changeFrequency: "monthly" },
     { path: "/demos", priority: 0.8, changeFrequency: "weekly" },
     { path: "/stats", priority: 0.7, changeFrequency: "daily" },
@@ -30,12 +31,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   }));
 
-  const postEntries = getAllPosts().map((post) => ({
-    url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: new Date((post.updated ?? post.date) + "T00:00:00Z"),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const postEntries = BLOG_ENABLED
+    ? getAllPosts().map((post) => ({
+        url: `${SITE_URL}/blog/${post.slug}`,
+        lastModified: new Date((post.updated ?? post.date) + "T00:00:00Z"),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      }))
+    : [];
 
   const glossaryEntries = getAllGlossary().map((entry) => ({
     url: `${SITE_URL}/glossary/${entry.slug}`,

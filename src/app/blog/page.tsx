@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
 import { BreadcrumbsJsonLd } from "@/components/seo/Breadcrumbs";
 import { getAllPosts, formatPostDate } from "@/lib/blog";
+import { BLOG_ENABLED } from "@/lib/flags";
 
 export const metadata: Metadata = {
   title: "Blog — Bank Accounts, Wallets and Payments for AI Agents",
@@ -32,6 +34,7 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndexPage(): React.ReactElement {
+  if (!BLOG_ENABLED) notFound();
   const posts = getAllPosts();
 
   return (

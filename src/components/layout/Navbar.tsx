@@ -6,6 +6,7 @@ import { Menu, X, ArrowRight, Layers, Settings, BookOpen, ExternalLink, Play, Za
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/i18n/context";
+import { BLOG_ENABLED } from "@/lib/flags";
 
 export function Navbar(): React.ReactElement {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +17,7 @@ export function Navbar(): React.ReactElement {
     { label: "Live Demos", href: "/demos", icon: Play },
     { label: "MPP", href: "/mpp", icon: Zap },
     { label: t.nav.docs, href: "/docs", icon: BookOpen },
-    { label: "Blog", href: "/blog", icon: FileText },
+    ...(BLOG_ENABLED ? [{ label: "Blog", href: "/blog", icon: FileText }] : []),
     { label: t.nav.github, href: "https://github.com/solobank-ai", external: true, icon: ExternalLink },
   ];
 
